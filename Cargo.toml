@@ -9,6 +9,7 @@ description = "Recursively execute or remove scripts in nested directories"
 
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
+regex = "1.10.3"
 
 [dev-dependencies]
 assert_cmd = "2.0.12"
