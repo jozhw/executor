@@ -162,4 +162,39 @@ mod tests {
         env::set_current_dir(env!("CARGO_MANIFEST_DIR"))
             .expect("Failed to reset current directory to original");
     }
+
+    #[test]
+    fn test_traverse_and_execute_failure() {
+        // set the test directory to root/tests/test_data
+        let mut current_dir: PathBuf = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        current_dir.push("tests");
+        current_dir.push("test_data");
+        env::set_current_dir(&current_dir)
+            .expect("Failed to set current directory to tests/test_data");
+
+        // prepare arguments for traverse_and_execute function
+        let fname: &str = "failed_script.sh";
+        let depth: Option<i32> = None;
+        let counter: i32 = 0;
+        let result: Result<TraverseResult, crate::errors::execution_error::ExecutionError> =
+            traverse_and_execute(&current_dir, fname, &depth, counter);
+
+        // assert that traverse_and_execute executed successfully
+        // this does not mean that the individual executables are executed
+        // successfully, but rather the whole traverse_and_execute method
+        // executed successfully
+        assert!(result.is_ok(), "Execution failed with: {:?}", result);
+
+        let unsuccessful_commands: i32 = result.as_ref().unwrap().unsuccessful_commands;
+
+        assert_eq!(
+            unsuccessful_commands, 2,
+            "Expected 10 successful commands, got {}",
+            unsuccessful_commands
+        );
+
+        // reset the current directory to the original
+        env::set_current_dir(env!("CARGO_MANIFEST_DIR"))
+            .expect("Failed to reset current directory to original");
+    }
 }
