@@ -22,6 +22,7 @@ mod search {
 
 // custom errors
 mod errors {
+    pub mod deletion_error;
     pub mod execution_error;
     pub mod search_error;
 }
