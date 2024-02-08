@@ -23,4 +23,5 @@ mod search {
 // custom errors
 mod errors {
     pub mod execution_error;
+    pub mod search_error;
 }
