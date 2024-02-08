@@ -1,5 +1,7 @@
 use std::process::Command;
 
+use crate::errors::execution_error::ExecutionError;
+
 /// Execute the file of interest within the current working directory that has been traversed.
 ///
 /// # Arguments
@@ -9,7 +11,7 @@ use std::process::Command;
 /// # Returns
 ///
 /// ExitStatus object
-pub fn execute_file(path: &str) -> Result<std::process::ExitStatus, std::io::Error> {
+pub fn execute_file(path: &str) -> Result<std::process::ExitStatus, ExecutionError> {
     // create a command to run the executable
     let mut command: Command = Command::new(path);
 
@@ -22,5 +24,17 @@ pub fn execute_file(path: &str) -> Result<std::process::ExitStatus, std::io::Err
     // }
 
     // execute the command and return the result
-    command.status()
+    let status = match command.status() {
+        Ok(status) => status,
+        Err(e) => return Err(ExecutionError::IoError(e)),
+    };
+
+    if status.success() {
+        Ok(status)
+    } else {
+        Err(ExecutionError::CommandError(
+            format!("Failed to execute {:?}", path),
+            status,
+        ))
+    }
 }
