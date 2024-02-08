@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 
+#[derive(Debug)]
 pub struct TraverseResult {
     pub successful_commands: i32,
     pub unsuccessful_commands: i32,
