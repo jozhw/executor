@@ -1,4 +1,4 @@
-use std::process::Command;
+use std::process::{Command, ExitStatus};
 
 use crate::errors::execution_error::ExecutionError;
 
@@ -24,7 +24,7 @@ pub fn execute_file(path: &str) -> Result<std::process::ExitStatus, ExecutionErr
     // }
 
     // execute the command and return the result
-    let status = match command.status() {
+    let status: ExitStatus = match command.status() {
         Ok(status) => status,
         Err(e) => return Err(ExecutionError::IoError(e)),
     };
