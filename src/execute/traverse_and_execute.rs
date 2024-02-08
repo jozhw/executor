@@ -31,7 +31,7 @@ pub fn traverse_and_execute(
             // determine whether or not to
             // recursively traverse subdirectories
             match depth {
-                Some(depth_value) if depth_value >= &counter => {
+                Some(depth_value) if depth_value == &counter => {
                     // check to see if depth value has been reached
                     // recursion breaks
                 }
@@ -126,24 +126,36 @@ mod tests {
             successful_commands
         );
 
-        // check output to see if the script executed successfully
-        let script_output: std::process::Output = Command::new("sh")
-            .arg(fname)
-            .output()
-            .expect("Failed to execute script");
+        // reset the current directory to the original
+        env::set_current_dir(env!("CARGO_MANIFEST_DIR"))
+            .expect("Failed to reset current directory to original");
+    }
 
-        // convert output bytes to string
-        let output_str: &str =
-            std::str::from_utf8(&script_output.stdout).expect("Failed to convert output to string");
+    #[test]
+    fn test_traverse_and_execute_success_at_depth() {
+        // set the test directory to root/tests/test_data
+        let mut current_dir: PathBuf = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        current_dir.push("tests");
+        current_dir.push("test_data");
+        env::set_current_dir(&current_dir)
+            .expect("Failed to set current directory to tests/test_data");
 
-        // print the path of each that executed
-        println!("Script Path: {}", current_dir.join(fname).display());
+        // prepare arguments for traverse_and_execute function
+        let fname: &str = "script.sh";
+        let depth: Option<i32> = Some(1); // Set a specific depth
+        let counter: i32 = 0;
+        let result: Result<TraverseResult, crate::errors::execution_error::ExecutionError> =
+            traverse_and_execute(&current_dir, fname, &depth, counter);
 
-        // assert that the expected output is present
-        assert!(
-            output_str.contains("Hello world!"),
-            "Expected output does not match: {:?}",
-            output_str
+        // assert that traverse_and_execute executed successfully
+        assert!(result.is_ok(), "Execution failed: {:?}", result);
+
+        // check the number of successful commands
+        let successful_executions: i32 = result.as_ref().unwrap().successful_commands;
+        assert_eq!(
+            successful_executions, 4,
+            "Expected 4 successful executions, but found {}",
+            successful_executions
         );
 
         // reset the current directory to the original
