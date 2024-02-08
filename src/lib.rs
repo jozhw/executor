@@ -25,3 +25,8 @@ mod errors {
     pub mod execution_error;
     pub mod search_error;
 }
+
+// types
+mod types {
+    pub mod traverse_result;
+}
