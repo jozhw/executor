@@ -23,6 +23,7 @@ pub fn create_temp_directory_with_script(script_content: &str, depth: i32) -> Te
     write!(script_file, "{}", script_content).expect("Failed to write script file");
 
     TemporaryPath {
+        temp_dir,
         temp_dir_path,
         temp_dir_full_path,
     }
