@@ -60,5 +60,11 @@ mod tests {
 
         // assert that the execution was successful
         assert!(result.is_ok(), "Deletion failed: {:?}", result);
+
+        // check to see if file still exists
+        assert!(
+            temp_dir_full_path.join("script.sh").metadata().is_err(),
+            "File should not exist after deletion"
+        )
     }
 }
