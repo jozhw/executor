@@ -30,6 +30,7 @@ mod errors {
 
 // types
 mod types {
+    pub mod temporary_path;
     pub mod traverse_result;
 }
 
