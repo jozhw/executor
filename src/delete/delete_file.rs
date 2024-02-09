@@ -43,20 +43,15 @@ pub fn delete_file(path: &str) -> Result<(), DeletionError> {
 mod tests {
     use super::delete_file;
     use crate::errors::deletion_error::DeletionError;
-    use std::fs::File;
+    use crate::utils::create_temp_directory_with_script::create_temp_directory_with_script;
     use std::path::PathBuf;
-    use tempfile::TempDir;
 
     #[test]
     fn test_delete_file_success() {
-        // create a temporary directory
-        let temp_dir: TempDir =
-            tempfile::tempdir().expect("Failed to create a temporary directory.");
-
-        // create a test script file that will be deleted in the temp dir
-        let script_path: PathBuf = temp_dir.path().join("test_script.sh");
-        let mut script_file: File =
-            File::create(&script_path).expect("Failed to create script file.");
+        let depth: i32 = 1;
+        let script_content = "echo Hello World!";
+        let temp_dir: PathBuf = create_temp_directory_with_script(script_content, depth);
+        let script_path: PathBuf = temp_dir.join("script.sh");
 
         // delete the file and check the result
         let result: Result<(), DeletionError> = delete_file(script_path.to_str().unwrap());
