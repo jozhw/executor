@@ -13,14 +13,6 @@ use std::fs;
 pub fn delete_file(path: &str) -> Result<(), DeletionError> {
     // create a command to run the executable
 
-    // for future development: argument implementation for execution of script
-    // need to make sure that args is an argument for delete_file and the type
-    // casting is a vector of borrowed strings (Vec<&str>)
-    //
-    // for arg in args {
-    //      command.arg(arg);
-    // }
-
     // delete the command and return the result
     match fs::remove_file(path) {
         Ok(_) => Ok(()),
