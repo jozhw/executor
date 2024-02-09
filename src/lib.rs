@@ -7,6 +7,7 @@ pub use cli::Cli;
 // delete methods
 mod delete {
     pub mod delete_file;
+    pub mod traverse_and_delete;
 }
 
 // execute methods
@@ -30,4 +31,9 @@ mod errors {
 // types
 mod types {
     pub mod traverse_result;
+}
+
+// utils
+mod utils {
+    pub mod create_temp_directory_with_script;
 }
