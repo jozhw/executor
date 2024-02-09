@@ -6,6 +6,7 @@ pub enum DeletionError {
     NotFound,
     PermissionDenied,
     Other(String),
+    IoError(std::io::Error),
 }
 
 impl fmt::Display for DeletionError {
@@ -14,6 +15,7 @@ impl fmt::Display for DeletionError {
             DeletionError::NotFound => write!(f, "File not found"),
             DeletionError::PermissionDenied => write!(f, "Permission denied"),
             DeletionError::Other(message) => write!(f, "Error: {}", message),
+            DeletionError::IoError(err) => write!(f, "IO Error: {}", err),
         }
     }
 }
@@ -23,6 +25,7 @@ impl Error for DeletionError {
         match self {
             DeletionError::NotFound | DeletionError::PermissionDenied => None,
             DeletionError::Other(_) => Some(self),
+            DeletionError::IoError(err) => Some(err),
         }
     }
 }
