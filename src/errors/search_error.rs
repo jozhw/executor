@@ -2,7 +2,7 @@ use core::fmt;
 use std::error::Error;
 
 #[derive(Debug)]
-enum SearchError {
+pub enum SearchError {
     InvalidRegexPattern(String),
     IoError(std::io::Error),
 }
