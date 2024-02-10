@@ -30,11 +30,10 @@ mod errors {
 
 // types
 mod types {
-    pub mod temporary_path;
     pub mod traverse_result;
 }
 
 // utils
 mod utils {
-    pub mod create_temp_directory_with_script;
+    pub mod create_nested_directory_structure;
 }
