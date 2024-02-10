@@ -18,7 +18,8 @@ mod execute {
 
 // search methods
 mod search {
-    pub mod search_file;
+    pub mod search_files;
+    pub mod traverse_and_search;
 }
 
 // custom errors
@@ -30,6 +31,8 @@ mod errors {
 
 // types
 mod types {
+    pub mod search_match;
+    pub mod traverse_match;
     pub mod traverse_result;
 }
 
