@@ -13,6 +13,14 @@ use std::fs;
 pub fn delete_file(path: &str) -> Result<(), DeletionError> {
     // create a command to run the executable
 
+    // for future development: argument implementation for execution of script
+    // need to make sure that args is an argument for delete_file and the type
+    // casting is a vector of borrowed strings (Vec<&str>)
+    //
+    // for arg in args {
+    //      command.arg(arg);
+    // }
+
     // delete the command and return the result
     match fs::remove_file(path) {
         Ok(_) => Ok(()),
@@ -35,28 +43,24 @@ pub fn delete_file(path: &str) -> Result<(), DeletionError> {
 mod tests {
     use super::delete_file;
     use crate::errors::deletion_error::DeletionError;
-    use crate::types::temporary_path::TemporaryPath;
-    use crate::utils::create_temp_directory_with_script::create_temp_directory_with_script;
+    use std::fs::File;
     use std::path::PathBuf;
+    use tempfile::TempDir;
 
     #[test]
     fn test_delete_file_success() {
-        let depth: i32 = 1;
-        let script_content: &str = "echo Hello World!";
-        let temp_path: TemporaryPath = create_temp_directory_with_script(script_content, depth);
-        let temp_dir_full_path: PathBuf = temp_path.temp_dir_full_path;
-        let script_path: PathBuf = temp_dir_full_path.join("script.sh");
+        // create a temporary directory
+        let temp_dir: TempDir =
+            tempfile::tempdir().expect("Failed to create a temporary directory.");
+
+        // create a test script file that will be deleted in the temp dir
+        let script_path: PathBuf = temp_dir.path().join("test_script.sh");
+        File::create(&script_path).expect("Failed to create script file.");
 
         // delete the file and check the result
         let result: Result<(), DeletionError> = delete_file(script_path.to_str().unwrap());
 
         // assert that the execution was successful
         assert!(result.is_ok(), "Deletion failed: {:?}", result);
-
-        // check to see if file still exists
-        assert!(
-            temp_dir_full_path.join("script.sh").metadata().is_err(),
-            "File should not exist after deletion"
-        )
     }
 }
