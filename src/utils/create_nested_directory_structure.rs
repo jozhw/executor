@@ -28,25 +28,27 @@ pub fn create_nested_directory_structure() -> Result<TempDir, std::io::Error> {
 #[cfg(test)]
 mod tests {
 
+    use tempfile::TempDir;
+
     use crate::utils::create_nested_directory_structure::create_nested_directory_structure;
-    use std::fs;
+    use std::{fs, path::PathBuf};
 
     #[test]
     fn test_create_nested_directory_structure() {
         // Call the helper function to create the nested structure
-        let temp_dir =
+        let temp_dir: TempDir =
             create_nested_directory_structure().expect("Failed to create nested structure");
 
         // check if the nested structure was created successfully
-        let nested_path = temp_dir.path().join("subdir1/subdir2");
+        let nested_path: PathBuf = temp_dir.path().join("subdir1/subdir2");
         assert!(nested_path.is_dir(), "Nested structure was not created");
 
         // check if the test file was created
-        let file_path = nested_path.join("test_file.txt");
+        let file_path: PathBuf = nested_path.join("test_file.txt");
         assert!(file_path.is_file(), "Test file was not created");
 
         // check the content of the test file
-        let content = fs::read_to_string(&file_path).expect("Failed to read test file");
+        let content: String = fs::read_to_string(&file_path).expect("Failed to read test file");
         assert_eq!(
             content.trim(),
             "Test content",
