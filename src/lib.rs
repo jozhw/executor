@@ -6,18 +6,21 @@ pub use cli::Cli;
 
 // delete methods
 mod delete {
+    pub mod delete;
     pub mod delete_file;
     pub mod traverse_and_delete;
 }
 
 // execute methods
 mod execute {
+    pub mod execute;
     pub mod execute_file;
     pub mod traverse_and_execute;
 }
 
 // search methods
 mod search {
+    pub mod search;
     pub mod search_files;
     pub mod traverse_and_search;
     pub mod traverse_recursive;
