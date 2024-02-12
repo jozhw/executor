@@ -20,6 +20,7 @@ mod execute {
 mod search {
     pub mod search_files;
     pub mod traverse_and_search;
+    pub mod traverse_recursive;
 }
 
 // custom errors
