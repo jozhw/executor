@@ -54,5 +54,7 @@ mod tests {
             "Test content",
             "Unexpected content in the test file"
         );
+        // delete the temp dir
+        drop(temp_dir);
     }
 }

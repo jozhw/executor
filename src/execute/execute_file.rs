@@ -78,6 +78,11 @@ mod tests {
 
         // assert that the execution was successful
         assert!(result.is_ok(), "Execution failed: {:?}", result);
+
+        // remove temp dir
+        temp_dir
+            .close()
+            .expect("Failed to remove temporary directory");
     }
 
     #[test]
@@ -98,6 +103,11 @@ mod tests {
             result.is_err(),
             "Execution was successful, but it should have failed."
         );
+
+        // close temporary directory
+        temp_dir
+            .close()
+            .expect("Failed to remove temporary directory");
     }
 
     #[test]
@@ -129,5 +139,10 @@ mod tests {
             result.is_err(),
             "Execution succeeded, but it should have failed."
         );
+
+        // close temporary directory
+        temp_dir
+            .close()
+            .expect("Failed to close temporary directory")
     }
 }

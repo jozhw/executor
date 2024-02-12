@@ -62,5 +62,10 @@ mod tests {
 
         // assert that the execution was successful
         assert!(result.is_ok(), "Deletion failed: {:?}", result);
+
+        // remove temporary directory
+        temp_dir
+            .close()
+            .expect("Failed to remove temporary directory")
     }
 }
