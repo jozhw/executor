@@ -7,6 +7,21 @@ use crate::{
 };
 
 // must implement a tail recursion to avoid stack overflow
+
+/// wrapper function for the traverse_recursive tail recursive algorithm to search through
+/// the file system at a specified depth and return the matches
+///
+/// # Arguments
+///
+/// * 'dir' - reference to a PathBuf
+/// * 'regex' - valid regex
+/// * 'depth' - reference to an optional i32
+/// * 'counter' - i32 that is used to count the depth
+///
+/// # Returns
+///
+/// TraverseMatch result that contains the number of matches and a array containing SearchMatch
+/// objects
 pub fn traverse_search(
     dir: &PathBuf,
     regex: &Regex,

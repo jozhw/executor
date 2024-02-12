@@ -9,6 +9,21 @@ use crate::{
     types::{search_match::SearchMatch, traverse_match::TraverseMatch},
 };
 
+/// recursive algorithm to search through the file system and mutates the wrapper
+/// function's TraverseMatch object
+///
+///
+/// # Arguments
+///
+/// * 'dir' - reference to a PathBuf
+/// * 'regex' - valid regex
+/// * 'depth' - reference to an optional i32
+/// * 'counter' - i32 that is used to count the depth
+/// * 'acc' - accumulate the TraverseMatch object for tail recursion
+///
+/// # Returns
+///
+///
 pub fn traverse_recursive(
     dir: &PathBuf,
     regex: &Regex,
