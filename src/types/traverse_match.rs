@@ -2,6 +2,7 @@
 
 use super::search_match::SearchMatch;
 
+#[derive(Debug)]
 pub struct TraverseMatch {
     // count the number of matches
     pub match_count: i32,
