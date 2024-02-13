@@ -1,6 +1,6 @@
 [package]
 name = "executor"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 authors = ["J.Z.W."]
 description = "Recursively execute or remove scripts in nested directories"
@@ -9,6 +9,8 @@ description = "Recursively execute or remove scripts in nested directories"
 
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
+regex = "1.10.3"
+tempfile = "3.8.1"
 
 [dev-dependencies]
 assert_cmd = "2.0.12"
