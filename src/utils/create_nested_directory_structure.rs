@@ -9,6 +9,7 @@ use tempfile::{tempdir, TempDir};
 /// # Returns
 ///
 /// A TempDir in order to remain inscope for testing
+#[allow(dead_code)]
 pub fn create_nested_directory_structure() -> Result<TempDir, std::io::Error> {
     // create the temp dir
     let temp_dir: TempDir = tempdir().expect("Failed to create temporary root directory");
