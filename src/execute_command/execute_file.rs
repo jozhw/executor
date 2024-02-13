@@ -46,32 +46,19 @@ pub fn execute_file(path: &str) -> Result<std::process::ExitStatus, ExecutionErr
 mod tests {
     use super::execute_file;
     use crate::errors::execution_error::ExecutionError;
-    use std::fs::{File, Permissions};
-    use std::io::Write;
-    use std::os::unix::fs::PermissionsExt;
+    use std::env;
     use std::path::PathBuf;
-    use tempfile::TempDir;
 
     #[test]
     fn test_execute_file_success() {
-        // create a temporary directory
-        let temp_dir: TempDir =
-            tempfile::tempdir().expect("Failed to create a temporary directory.");
+        // set the test directory to root/tests/test_data
+        let mut current_dir: PathBuf = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        current_dir.push("tests");
+        current_dir.push("test_data");
+        env::set_current_dir(&current_dir)
+            .expect("Failed to set current directory to tests/test_data");
 
-        // create a test script file that will succeed in the temp dir
-        let script_content: &str = r#"#!/bin/bash
-            echo 'Test script executed successfully'"#;
-        let script_path: PathBuf = temp_dir.path().join("test_script.sh");
-        let mut script_file: File =
-            File::create(&script_path).expect("Failed to create script file.");
-        write!(script_file, "{}", script_content).expect("Failed to write to script file.");
-
-        // make the script file executable
-        std::process::Command::new("chmod")
-            .args(&["+x", script_path.to_str().unwrap()])
-            .output()
-            .expect("Failed to make script executable.");
-
+        let script_path: PathBuf = current_dir.join("script.sh");
         // execute the file and check the result
         let result: Result<std::process::ExitStatus, ExecutionError> =
             execute_file(script_path.to_str().unwrap());
@@ -79,20 +66,22 @@ mod tests {
         // assert that the execution was successful
         assert!(result.is_ok(), "Execution failed: {:?}", result);
 
-        // remove temp dir
-        temp_dir
-            .close()
-            .expect("Failed to remove temporary directory");
+        // reset the current directory to the original
+        env::set_current_dir(env!("CARGO_MANIFEST_DIR"))
+            .expect("Failed to reset current directory to original");
     }
 
     #[test]
     fn test_execute_file_failure() {
-        // create a temporary directory
-        let temp_dir: TempDir = tempfile::tempdir().expect("Failed to create temporary directory.");
+        // set the test directory to root/tests/test_data
+        let mut current_dir: PathBuf = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        current_dir.push("tests");
+        current_dir.push("test_data");
+        env::set_current_dir(&current_dir)
+            .expect("Failed to set current directory to tests/test_data");
 
         // create a non-executable file in the temporary directory
-        let file_path: PathBuf = temp_dir.path().join("non_executable_file.txt");
-        File::create(&file_path).expect("Failed to create file.");
+        let file_path: PathBuf = current_dir.join("non_executable_file.txt");
 
         // execute the non-executable file and check the result
         let result: Result<std::process::ExitStatus, ExecutionError> =
@@ -104,31 +93,22 @@ mod tests {
             "Execution was successful, but it should have failed."
         );
 
-        // close temporary directory
-        temp_dir
-            .close()
-            .expect("Failed to remove temporary directory");
+        // reset the current directory to the original
+        env::set_current_dir(env!("CARGO_MANIFEST_DIR"))
+            .expect("Failed to reset current directory to original");
     }
 
     #[test]
     fn test_execute_file_permission_failure() {
-        // create a temporary directory
-        let temp_dir: TempDir =
-            tempfile::tempdir().expect("Failed to create a temporary directory.");
+        // set the test directory to root/tests/test_data
+        let mut current_dir: PathBuf = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        current_dir.push("tests");
+        current_dir.push("test_data");
+        env::set_current_dir(&current_dir)
+            .expect("Failed to set current directory to tests/test_data");
 
-        // create a test cript in the temp dir
-        let script_content: &str = r#"#!/bin/sh
-            echo "Test script executed successfully""#;
-        let script_path: PathBuf = temp_dir.path().join("test_script.sh");
-        let mut script_file: File =
-            File::create(&script_path).expect("Failed to create script file");
-        write!(script_file, "{}", script_content).expect("Failed to write to script file");
-
-        // make the script file non-executable
-        let permissions: Permissions = Permissions::from_mode(0o644); // set to creat and write permissions only
-
-        std::fs::set_permissions(&script_path, permissions)
-            .expect("Failed to set permissions to read and write only.");
+        // create a non-executable file in the temporary directory
+        let script_path: PathBuf = current_dir.join("failed_script.sh");
 
         // execute the file and check
         let result: Result<std::process::ExitStatus, ExecutionError> =
@@ -140,9 +120,8 @@ mod tests {
             "Execution succeeded, but it should have failed."
         );
 
-        // close temporary directory
-        temp_dir
-            .close()
-            .expect("Failed to close temporary directory")
+        // reset the current directory to the original
+        env::set_current_dir(env!("CARGO_MANIFEST_DIR"))
+            .expect("Failed to reset current directory to original");
     }
 }

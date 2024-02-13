@@ -104,9 +104,6 @@ mod tests {
         env::set_current_dir(&current_dir)
             .expect("Failed to set current directory to tests/test_data");
 
-        // init logger to print out debug messages
-        env_logger::init();
-
         // prepare arguments for traverse_and_execute function
         let fname: &str = "script.sh";
         let depth: Option<i32> = None;
