@@ -94,7 +94,6 @@ mod tests {
 
     use std::env;
     use std::path::PathBuf;
-    use std::process::Command;
 
     #[test]
     fn test_traverse_and_execute_success() {
