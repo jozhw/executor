@@ -1,0 +1,52 @@
+name: Run Benchmarks and Create Pull Request
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Rust
+        uses: actions/setup-rust@v1
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y hyperfine wget
+
+      - name: Build and run benchmarks
+        run: |
+          # Replace with the actual path to your benchmark script
+          BENCH_SCRIPT_PATH=benches/benchmark.sh
+
+          # Run benchmarks with saving to history
+          bash $BENCH_SCRIPT_PATH --save-to-history
+
+      - name: Create branch and commit
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git checkout -b update-benchmarks 
+          git add .
+          git commit -m "Update benchmark results [skip ci]"
+
+      - name: Push branch
+        run: git push origin update-benchmarks
+
+      - name: Create Pull Request
+        id: create_pr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Automated Benchmarks Update"
+          body: "This pull request is automatically created to update benchmark results."
+          base: "main"
+          branch: "update-benchmarks"
+          labels: "benchmark"
