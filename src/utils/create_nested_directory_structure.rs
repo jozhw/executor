@@ -20,7 +20,7 @@ pub fn create_nested_directory_structure() -> Result<TempDir, std::io::Error> {
 
     // create a test file in the nested structure
     let file_path: PathBuf = nested_path.join("test_file.txt");
-    fs::write(&file_path, "Test content")?;
+    fs::write(file_path, "Test content")?;
 
     Ok(temp_dir)
 }
