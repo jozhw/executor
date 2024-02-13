@@ -41,11 +41,11 @@ fn main() {
         EntityType::Search(args) => {
             // prep variables for method
             let entity_type: EntityType = EntityType::Search(args.clone());
-            let fname: &str = entity_type.get_name();
+            let pattern: &str = entity_type.get_name();
             let path: PathBuf = entity_type.get_path();
             let depth: &Option<i32> = entity_type.get_depth();
 
-            match search(&path, fname, depth) {
+            match search(&path, pattern, depth) {
                 Ok(_) => {}
                 Err(err) => {
                     eprintln!("{:?}", err)
