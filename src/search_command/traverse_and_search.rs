@@ -2,7 +2,7 @@ use regex::Regex;
 use std::path::PathBuf;
 
 use crate::{
-    errors::search_error::SearchError, search::traverse_recursive::traverse_recursive,
+    errors::search_error::SearchError, search_command::traverse_recursive::traverse_recursive,
     types::traverse_match::TraverseMatch,
 };
 

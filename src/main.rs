@@ -2,9 +2,9 @@ use std::path::PathBuf;
 
 use clap::Parser;
 
-use executor::delete::delete::delete;
-use executor::execute::execute::execute;
-use executor::search::search::search;
+use executor::delete_command::delete::delete;
+use executor::execute_command::execute::execute;
+use executor::search_command::search::search;
 use executor::{cli::EntityType, Cli};
 
 fn main() {

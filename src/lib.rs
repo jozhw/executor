@@ -5,21 +5,21 @@ pub mod cli;
 pub use cli::Cli;
 
 // delete methods
-pub mod delete {
+pub mod delete_command {
     pub mod delete;
     pub mod delete_file;
     pub mod traverse_and_delete;
 }
 
 // execute methods
-pub mod execute {
+pub mod execute_command {
     pub mod execute;
     pub mod execute_file;
     pub mod traverse_and_execute;
 }
 
 // search methods
-pub mod search {
+pub mod search_command {
     pub mod search;
     pub mod search_files;
     pub mod traverse_and_search;
