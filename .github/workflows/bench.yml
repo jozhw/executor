@@ -4,17 +4,24 @@ on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
   benchmark:
     runs-on: ubuntu-latest
-
+    name: ubuntu / ${{ matrix.toolchain }}
+    strategy:
+      matrix:
+        toolchain: [stable, beta]
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
 
-      - name: Set up Rust
-        uses: actions/setup-rust@v1
+      - name: Install ${{ matrix.toolchain }}
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
 
       - name: Install Dependencies
         run: |
