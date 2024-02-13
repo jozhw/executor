@@ -115,3 +115,35 @@ pub struct SearchCommand {
     #[arg(short, long)]
     pub depth: Option<i32>,
 }
+
+// tests
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::Cli;
+
+    #[test]
+    fn verify_cli() {
+        use clap::CommandFactory;
+        Cli::command().debug_assert()
+    }
+
+    #[test]
+    fn test_get_name() {
+        let args: ExecuteCommand = ExecuteCommand {
+            fname: "script.sh".to_string(),
+            path: Some(PathBuf::from("tests/test_data")),
+            depth: None,
+        };
+
+        let entity_type: EntityType = EntityType::Execute(args.clone());
+
+        assert_eq!(entity_type.get_name(), &args.fname);
+    }
+
+    #[test]
+    fn test_get_path() {}
+
+    #[test]
+    fn test_get_depth() {}
+}
