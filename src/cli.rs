@@ -117,6 +117,10 @@ pub struct SearchCommand {
 }
 
 // tests
+//
+// Note: only one command needs to be tested because the methods work the same
+// regardless of the commands used
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -142,7 +146,17 @@ mod tests {
     }
 
     #[test]
-    fn test_get_path() {}
+    fn test_get_path() {
+        let args: ExecuteCommand = ExecuteCommand {
+            fname: "script.sh".to_string(),
+            path: Some(PathBuf::from("tests/test_data")),
+            depth: None,
+        };
+
+        let entity_type: EntityType = EntityType::Execute(args.clone());
+
+        assert_eq!(entity_type.get_path(), args.path.unwrap());
+    }
 
     #[test]
     fn test_get_depth() {}
