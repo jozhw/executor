@@ -1,5 +1,6 @@
 use assert_cmd::Command;
 
+#[cfg(not(windows))]
 #[test]
 fn test_execute_command_without_path() {
     let assert = Command::cargo_bin("executor")
@@ -12,6 +13,7 @@ fn test_execute_command_without_path() {
 }
 
 // with --path and nested
+#[cfg(not(windows))]
 #[test]
 fn test_execute_command_nested_without_depth() {
     let assert = Command::cargo_bin("executor")

@@ -49,6 +49,7 @@ mod tests {
     use std::env;
     use std::path::PathBuf;
 
+    #[cfg(not(windows))]
     #[test]
     fn test_execute_file_success() {
         // set the test directory to root/tests/test_data
@@ -71,6 +72,7 @@ mod tests {
             .expect("Failed to reset current directory to original");
     }
 
+    #[cfg(not(windows))]
     #[test]
     fn test_execute_file_failure() {
         // set the test directory to root/tests/test_data
@@ -98,6 +100,7 @@ mod tests {
             .expect("Failed to reset current directory to original");
     }
 
+    #[cfg(not(windows))]
     #[test]
     fn test_execute_file_permission_failure() {
         // set the test directory to root/tests/test_data

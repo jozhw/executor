@@ -95,6 +95,7 @@ mod tests {
     use std::env;
     use std::path::PathBuf;
 
+    #[cfg(not(windows))]
     #[test]
     fn test_traverse_and_execute_success() {
         // set the test directory to root/tests/test_data
@@ -127,6 +128,7 @@ mod tests {
             .expect("Failed to reset current directory to original");
     }
 
+    #[cfg(not(windows))]
     #[test]
     fn test_traverse_and_execute_success_at_depth() {
         // set the test directory to root/tests/test_data
@@ -159,6 +161,7 @@ mod tests {
             .expect("Failed to reset current directory to original");
     }
 
+    #[cfg(not(windows))]
     #[test]
     fn test_traverse_and_execute_failure() {
         // set the test directory to root/tests/test_data
