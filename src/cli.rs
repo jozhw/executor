@@ -159,5 +159,15 @@ mod tests {
     }
 
     #[test]
-    fn test_get_depth() {}
+    fn test_get_depth() {
+        let args: ExecuteCommand = ExecuteCommand {
+            fname: "script.sh".to_string(),
+            path: Some(PathBuf::from("tests/test_data")),
+            depth: Some(1),
+        };
+
+        let entity_type: EntityType = EntityType::Execute(args.clone());
+
+        assert_eq!(entity_type.get_depth(), &args.depth);
+    }
 }
