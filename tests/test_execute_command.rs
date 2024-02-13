@@ -38,7 +38,7 @@ fn test_execute_command_without_path() {
 
 // with --path and nested
 #[test]
-fn test_execute_command_without_depth() {
+fn test_execute_command_nested_without_depth() {
     let assert = Command::cargo_bin("executor")
         .expect("Failed to find binary")
         .args([
