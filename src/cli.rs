@@ -159,6 +159,22 @@ mod tests {
     }
 
     #[test]
+    fn test_get_path_no_input() {
+        let args: ExecuteCommand = ExecuteCommand {
+            fname: "script.sh".to_string(),
+            path: None,
+            depth: None,
+        };
+
+        let entity_type: EntityType = EntityType::Execute(args.clone());
+
+        assert_eq!(
+            entity_type.get_path(),
+            env::current_dir()
+                .expect("Failed to get current directory in test_get_path_no_input test")
+        );
+    }
+    #[test]
     fn test_get_depth() {
         let args: ExecuteCommand = ExecuteCommand {
             fname: "script.sh".to_string(),
