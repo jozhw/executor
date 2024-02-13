@@ -1,6 +1,6 @@
 [package]
 name = "executor"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 authors = ["J.Z.W."]
 description = "Recursively execute or remove scripts in nested directories"
