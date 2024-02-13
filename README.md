@@ -20,7 +20,7 @@
 
 </div>
 
-Note: In order to execute files, the files themselves must be executable.
+IMPORTANT: execute command was not tested for windows os.
 
 ## Commentary
 
