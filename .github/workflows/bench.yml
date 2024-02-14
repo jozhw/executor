@@ -1,4 +1,4 @@
-name: Run Benchmarks and Create Pull Request
+name: run benchmarks
 
 on:
   push:
@@ -48,14 +48,3 @@ jobs:
         run: git push -f origin update-benchmarks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create Pull Request
-        id: create_pr
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: "Automated Benchmarks Update"
-          body: "This pull request is automatically created to update benchmark results."
-          base: "main"
-          branch: "update-benchmarks"
-          labels: "benchmark"
