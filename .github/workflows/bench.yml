@@ -45,7 +45,9 @@ jobs:
           git commit -m "Update benchmark results [skip ci]"
 
       - name: Push branch
-        run: git push origin update-benchmarks
+        run: git push update-benchmarks
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request
         id: create_pr
