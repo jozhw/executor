@@ -67,15 +67,15 @@ EXECUTECOMMAND="execute"
 EXECUTE_ARGS="--fname script.sh --path tests/test_data"
 
 DELETECOMMAND="delete"
-DELETE_ARGS="--fname file1.txt --path tests/$TMP_DIR"
+DELETE_ARGS="--fname file1.txt --path tests$TMP_DIR"
 
 # define the commands for the current version and previous versions
 CURRENT_VERSION="./benches/$REPO_NAME-$CURRENT_VER/target/release/executor $SEARCHCOMMAND $SEARCH_ARGS && ./benches/$REPO_NAME-$CURRENT_VER/target/release/executor $EXECUTECOMMAND $EXECUTE_ARGS && ./benches/$REPO_NAME-$CURRENT_VER/target/release/executor $DELETECOMMAND $DELETE_ARGS"
 PREVIOUS_VERSION="./benches/$REPO_NAME-$PREVIOUS_VER/target/release/executor $SEARCHCOMMAND $SEARCH_ARGS && ./benches/$REPO_NAME-$PREVIOUS_VER/target/release/executor $EXECUTECOMMAND $EXECUTE_ARGS && ./benches/$REPO_NAME-$PREVIOUS_VER/target/release/executor $DELETECOMMAND $DELETE_ARGS"
 
 # run benchmarks using Hyperfine and store the results
-# use --prepare to clear the caches before the benchmark to standardize
-hyperfine --prepare --export-csv benches/benchmark_results.csv "$CURRENT_VERSION" "$PREVIOUS_VERSION"
+# use --warmup to cache before the benchmark to standardize
+hyperfine --warmup 5 --runs 500 --export-csv benches/benchmark_results.csv "$CURRENT_VERSION" "$PREVIOUS_VERSION"
 
 # check if the user wants to save to the history log
 if [ "$1" == "--save-to-history" ]; then
