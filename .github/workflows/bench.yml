@@ -4,17 +4,25 @@ on:
   push:
     branches:
       - main
-
+  pull_request:
+permissions:
+  contents: write
 jobs:
   benchmark:
     runs-on: ubuntu-latest
-
+    name: ubuntu / ${{ matrix.toolchain }}
+    strategy:
+      matrix:
+        toolchain: [stable]
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
 
-      - name: Set up Rust
-        uses: actions/setup-rust@v1
+      - name: Install ${{ matrix.toolchain }}
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
 
       - name: Install Dependencies
         run: |
@@ -36,9 +44,10 @@ jobs:
           git checkout -b update-benchmarks 
           git add .
           git commit -m "Update benchmark results [skip ci]"
-
       - name: Push branch
-        run: git push origin update-benchmarks
+        run: git push -f origin update-benchmarks
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request
         id: create_pr
