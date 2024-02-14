@@ -5,7 +5,8 @@ on:
     branches:
       - main
   pull_request:
-
+permissions:
+  contents: write
 jobs:
   benchmark:
     runs-on: ubuntu-latest
