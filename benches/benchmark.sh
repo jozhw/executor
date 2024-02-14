@@ -80,7 +80,7 @@ hyperfine --warmup 5 --runs 500 --export-csv benches/benchmark_results.csv "$CUR
 # check if the user wants to save to the history log
 if [ "$1" == "--save-to-history" ]; then
   # append the results to the historical log
-  cat benchmark_results.csv >> "$HISTORY_LOG"
+  cat benches/benchmark_results.csv >> "$HISTORY_LOG"
 fi
 
 # clean up temporary directory and extracted files
